@@ -4,12 +4,13 @@
 
 <form method = "POST">
     <div style="text-align: center;">
-        <h1>Write "1" if you want to save your password or you forgot it.</h1><br>
-        <h1>Write "2" if you just wanted to say hi.</h1><br>
-
-            <label for="welcome">write it here:</label><br>
-            <input type="text" id="welcome" name="password_saver"><br>
-            <input type = "submit" value = "Submit">
+        <form method = "POST">
+            <h1>
+            <input type = "radio" name = "options" id = "1" value = "password">Create new password or revise already created one.</input><br>
+            <input type = "radio" name = "options" id = "2" value = "hi">Say HI <3.</input><br>
+            </h1>
+            <h1><input type = submit value = continue></h1>
+        </form>
     </div>
 
 </form> 

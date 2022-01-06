@@ -12,10 +12,10 @@ def index():
 @app.route("/welcome.html", methods = ["POST", "GET"])
 def Welcome():
     if request.method == "POST":
-        choice = request.form["password_saver"]
-        if choice == "1":
+        choice = request.form["options"]
+        if choice == "password":
             return redirect("save_forget.html")
-        elif choice == "2":
+        elif choice == "hi":
             return redirect("meet.html")
         else:
             return f"<h1><center>You have to choose something...</center></h1>" \
@@ -27,55 +27,44 @@ def Welcome():
 @app.route("/save_forget.html", methods = ["POST", "GET"])
 def choice():
     if request.method == "POST":
-        decision = request.form["options"]
-        if decision == "password":
-            return redirect("password.html")
+        password = request.form["password"]
+        code_written = request.form["code"]
+        code = random.randint(100000, 999999)
+        password_dict = {}
+        if password != "":
+            if len(password) < 6:
+                return f"<center><h1>Your password has to be at least 6 characters long.</h1><br>" \
+                       f"<button><a href = 'save_forget.html'>Go Back</a></button></center>"
+            elif len(password) > 5:
+                if code in password_dict:
+                    while code not in password_dict:
+                        code = random.randint(100000,999999)
+                        continue
+                    password_dict[f"{code}"] = f"{password}"
+                else:
+                        password_dict[f"{code}"] = f"{password}"
 
-        elif decision == "code":
-            return redirect("code.html")
+        elif code != "":
+            if len(code_written) < 6 or len(code_written) > 6:
+                return f"<center><h1>Code has to be 6 didgets long.</h1><br>" \
+                       "<button><a href = 'save_forget.html'>Go Back</a></button></center>"
+            elif code_written not in password_dict:
+                return f"<center><h1>This code does not exist</h1><br>" \
+                       "<button><a href = 'save_forget.html'>Go Back</a></button></center>"
 
-
+            elif code_written in password_dict:
+                return f"<center><h1>Your password is {password_dict.get({code_written})}</h1><br>" \
+                       "<button><a href = 'save_forget.html'>Go Back</a></button></center>"
         else:
-            return render_template("something.html")
+            return f"<center><h1>Something went wrong!</h1><br>" \
+                    "<button><a href = 'save_forget.html'>Try Again</a></button></center>"
 
     else:
         return render_template("save_forget.html")
 
-
-@app.route("/code.html", methods = ["POST", "GET"])
-def code():
-    if request.method == "POST":
-        return render_template("code.html")
-    else:
-        return render_template("code.html")
-
-passwords = []
-codes = []
-
-@app.route("/password.html", methods=["POST", "GET"])
-def password():
-        if request.method == "POST":
-            passwd = request.form["password"]
-            code = random.randint(100000, 999999)
-            passwords.append(passwd)
-
-            while len(codes) != len(codes) + 1:
-                if code not in codes:
-                    codes.append(code)
-                else:
-                    code = random.randint(100000, 999999)
-
-            return f"<center><h1>Your code if you forget your password is {code}</h1></center>" \
-                   f"<center><button><a href = 'password.html'>Go back</a></button></center>"
-        else:
-            return render_template("password.html")
-
-
 @app.route("/meet.html", methods =  ["POST", "GET"])
 def met():
         return render_template("meet.html")
-
-
 
 if __name__ == '__main__':
     app.run()

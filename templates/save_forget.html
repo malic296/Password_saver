@@ -6,12 +6,13 @@
   <title></title>
   </head>
   <body>
-        <center>
+        <div style="text-align: center;">
                   <h1>Choose from selected options...</h1>
                   <form method = "POST">
-
-                         <input type = "radio" name = "options" id = "1" value = "password">Create new password.</input><br>
-                         <input type = "radio" name = "options" id = "2" value = "code">Revise my old one.</input><br>
+                      <label for = "password">Write down your password:</label><br>
+                         <input type = "text" name = "password" id = "1"><br>
+                      <label for = "code">Write down your code:</label><br>
+                         <input type = "text" name = "code" id = "2"><br>
 
                       <h1><input type = submit value = continue></h1>
                   </form>
@@ -20,6 +21,6 @@
                   
                   
                   
-        </center>
+        </div>
   </body>
 </html>
